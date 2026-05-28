@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react'
 import './App.css'
 
+const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+  ? 'http://localhost:8000'
+  : 'https://arryansh11-aml-backend.hf.space';
+
 function App() {
   const [activeTab, setActiveTab] = useState('stock')
   const [trendingUp, setTrendingUp] = useState([])
@@ -10,7 +14,7 @@ function App() {
   const [showHistory, setShowHistory] = useState(false)
 
   const fetchHistory = () => {
-    fetch('http://localhost:8000/api/history')
+    fetch(`${API_BASE_URL}/api/history`)
       .then(res => res.json())
       .then(data => {
         if (data.success) {
@@ -20,7 +24,7 @@ function App() {
   }
 
   useEffect(() => {
-    fetch('http://localhost:8000/api/trending')
+    fetch(`${API_BASE_URL}/api/trending`)
       .then(res => res.json())
       .then(data => {
         if (data.success) {
@@ -52,7 +56,7 @@ function App() {
     setStockError('')
     setStockResult(null)
     try {
-      const res = await fetch('http://localhost:8000/api/predict_stock', {
+      const res = await fetch(`${API_BASE_URL}/api/predict_stock`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ticker: ticker || 'RELIANCE.NS' })
@@ -76,7 +80,7 @@ function App() {
     setIpoError('')
     setIpoResult(null)
     try {
-      const res = await fetch('http://localhost:8000/api/evaluate_ipo', {
+      const res = await fetch(`${API_BASE_URL}/api/evaluate_ipo`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
