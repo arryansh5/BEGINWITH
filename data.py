@@ -41,10 +41,33 @@ def get_stock_data_and_model(ticker_symbol="RELIANCE.NS"):
     model = LogisticRegression()
     model.fit(X_train_scaled, y_train)
 
-    latest_day = df.iloc[-1]
-    return model, scaler, latest_day, features
+    # Calculate metrics on the test set
+    X_test_scaled = scaler.transform(X_test)
+    y_pred = model.predict(X_test_scaled)
+    
+    from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+    accuracy = float(accuracy_score(y_test, y_pred))
+    precision = float(precision_score(y_test, y_pred, zero_division=0))
+    recall = float(recall_score(y_test, y_pred, zero_division=0))
+    f1 = float(f1_score(y_test, y_pred, zero_division=0))
+    
+    coefs = model.coef_[0]
+    feature_importance = {feat: float(coef) for feat, coef in zip(features, coefs)}
+    
+    metrics = {
+        "accuracy": round(accuracy * 100, 2),
+        "precision": round(precision * 100, 2),
+        "recall": round(recall * 100, 2),
+        "f1_score": round(f1 * 100, 2),
+        "train_size": len(X_train),
+        "test_size": len(X_test),
+        "coefficients": feature_importance
+    }
 
-def get_stock_prediction(model, scaler, latest_day, features):
+    latest_day = df.iloc[-1]
+    return model, scaler, latest_day, features, metrics
+
+def get_stock_prediction(model, scaler, latest_day, features, metrics):
     latest_X_scaled = scaler.transform([latest_day[features]])
     
     pred = model.predict(latest_X_scaled)[0]
@@ -85,7 +108,8 @@ def get_stock_prediction(model, scaler, latest_day, features):
         "Prediction": prediction_text,
         "Confidence": f"{confidence_pct}%",
         "Risk": risk_level,
-        "Reasons": reasons
+        "Reasons": reasons,
+        "Metrics": metrics
     }
 
 def evaluate_ipo(subscription_rate, gmp_percent, is_profitable, sector):

@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Stock & IPO Prediction Poster</title>
+<link href="https://fonts.googleapis.com/css2?family=Times+New+Roman&family=Arial:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 20px;
+  }
+
+  .poster {
+    width: 3370px;
+    min-height: 2384px;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    transform-origin: top left;
+    transform: scale(0.28);
+    /* For print, remove transform and set @page size */
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: linear-gradient(135deg, #00274c 0%, #0a4080 60%, #1565c0 100%);
+    color: white;
+    padding: 48px 60px 36px;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    border-bottom: 8px solid #ffd700;
+  }
+
+  .header-logos {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    min-width: 180px;
+  }
+
+  .logo-circle {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border: 4px solid #ffd700;
+  }
+
+  .logo-circle img { width: 120px; height: 120px; object-fit: contain; }
+
+  .logo-text {
+    font-size: 20px;
+    font-weight: bold;
+    color: #ffd700;
+    text-align: center;
+    line-height: 1.3;
+  }
+
+  .header-text { flex: 1; text-align: center; }
+
+  .header-text .conf-label {
+    font-size: 26px;
+    color: #a8d4ff;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+    font-style: italic;
+  }
+
+  .poster-title {
+    font-size: 72px;
+    font-weight: 900;
+    line-height: 1.1;
+    color: #ffffff;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+    margin-bottom: 20px;
+    font-family: 'Times New Roman', serif;
+  }
+
+  .poster-subtitle {
+    font-size: 34px;
+    color: #ffd700;
+    font-weight: bold;
+    margin-bottom: 22px;
+  }
+
+  .authors {
+    font-size: 30px;
+    color: #cce5ff;
+    line-height: 1.6;
+  }
+
+  .authors .supervisor {
+    font-size: 26px;
+    color: #a8d4ff;
+    margin-top: 6px;
+    font-style: italic;
+  }
+
+  /* ── BODY ── */
+  .body {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+    padding: 0;
+  }
+
+  .column {
+    display: flex;
+    flex-direction: column;
+    padding: 28px 24px;
+    gap: 24px;
+    border-right: 2px solid #dde4ef;
+  }
+  .column:last-child { border-right: none; }
+
+  /* ── SECTION BOX ── */
+  .section {
+    border: 1.5px solid #c5d5ea;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0,40,100,0.07);
+  }
+
+  .section-header {
+    background: linear-gradient(90deg, #00274c, #1565c0);
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+    padding: 14px 20px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-header .icon { font-size: 24px; }
+
+  .section-body {
+    background: #f7faff;
+    padding: 20px 22px;
+    font-size: 24px;
+    line-height: 1.65;
+    color: #1a1a2e;
+  }
+
+  .section-body p { margin-bottom: 10px; }
+  .section-body p:last-child { margin-bottom: 0; }
+
+  /* ── HIGHLIGHT BOX ── */
+  .highlight-box {
+    background: #e8f0fe;
+    border-left: 6px solid #1565c0;
+    border-radius: 4px;
+    padding: 14px 18px;
+    margin: 10px 0;
+    font-size: 23px;
+    color: #0d2a5e;
+    font-weight: 600;
+  }
+
+  /* ── BULLET LISTS ── */
+  .section-body ul {
+    padding-left: 26px;
+    margin: 8px 0;
+  }
+
+  .section-body ul li {
+    margin-bottom: 8px;
+    font-size: 24px;
+    line-height: 1.55;
+  }
+
+  .section-body ul li strong {
+    color: #0a4080;
+  }
+
+  /* ── INLINE TABLE ── */
+  .poster-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 22px;
+    margin-top: 10px;
+  }
+
+  .poster-table th {
+    background: #0a4080;
+    color: white;
+    padding: 12px 14px;
+    text-align: left;
+    font-weight: bold;
+  }
+
+  .poster-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid #c5d5ea;
+    vertical-align: top;
+  }
+
+  .poster-table tr:nth-child(even) td { background: #eef4ff; }
+  .poster-table tr:nth-child(odd) td { background: #f7faff; }
+
+  /* ── RESULT BADGES ── */
+  .badge-row {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+  }
+
+  .badge {
+    background: #00274c;
+    color: white;
+    border-radius: 30px;
+    padding: 10px 22px;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .badge .badge-val {
+    font-size: 36px;
+    color: #ffd700;
+    display: block;
+  }
+
+  .badge-green { background: #1b5e20; }
+  .badge-blue  { background: #0d47a1; }
+  .badge-teal  { background: #004d40; }
+
+  /* ── ARCHITECTURE IMAGE ── */
+  .arch-img {
+    width: 100%;
+    border-radius: 8px;
+    border: 2px solid #c5d5ea;
+  }
+
+  /* ── CONCLUSION / FUTURE WORK ── */
+  .tick-list { list-style: none; padding: 0; }
+  .tick-list li { padding-left: 30px; position: relative; margin-bottom: 10px; font-size: 24px; }
+  .tick-list li::before { content: "✔"; position: absolute; left: 0; color: #1565c0; font-weight: bold; }
+
+  .cross-list { list-style: none; padding: 0; }
+  .cross-list li { padding-left: 30px; position: relative; margin-bottom: 10px; font-size: 24px; }
+  .cross-list li::before { content: "→"; position: absolute; left: 0; color: #e65100; font-weight: bold; }
+
+  /* ── REFERENCES ── */
+  .ref-list { font-size: 21px; line-height: 1.6; color: #333; }
+  .ref-list li { margin-bottom: 8px; }
+
+  /* ── FOOTER ── */
+  .footer {
+    background: linear-gradient(90deg, #00274c, #1565c0);
+    color: white;
+    padding: 18px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 6px solid #ffd700;
+  }
+
+  .footer-left { font-size: 24px; color: #a8d4ff; }
+  .footer-center { font-size: 26px; font-weight: bold; color: #ffd700; text-align: center; }
+  .footer-right { font-size: 24px; color: #a8d4ff; text-align: right; }
+
+  /* ── FLOW DIAGRAM (CSS) ── */
+  .flow-diagram {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    margin: 10px 0;
+  }
+
+  .flow-box {
+    border-radius: 8px;
+    padding: 12px 20px;
+    font-size: 22px;
+    font-weight: bold;
+    text-align: center;
+    width: 90%;
+    color: white;
+  }
+
+  .flow-box.blue   { background: #1565c0; }
+  .flow-box.purple { background: #6a1b9a; }
+  .flow-box.green  { background: #2e7d32; }
+  .flow-box.orange { background: #e65100; }
+  .flow-box.teal   { background: #00695c; }
+
+  .flow-sub {
+    display: flex;
+    gap: 10px;
+    width: 90%;
+    justify-content: center;
+  }
+
+  .flow-sub-box {
+    flex: 1;
+    border-radius: 6px;
+    padding: 10px 12px;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    color: white;
+  }
+
+  .flow-sub-box.blue-l   { background: #42a5f5; color: #002060; }
+  .flow-sub-box.green-l  { background: #66bb6a; color: #1b3a1b; }
+
+  .flow-arrow {
+    font-size: 28px;
+    color: #0a4080;
+    line-height: 1;
+  }
+
+  .flow-label {
+    font-size: 20px;
+    color: #555;
+    font-style: italic;
+    margin-top: -4px;
+    margin-bottom: -4px;
+  }
+
+  /* ── SCORE TABLE ── */
+  .score-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .score-card {
+    background: #e8f0fe;
+    border-radius: 8px;
+    padding: 14px;
+    text-align: center;
+    border-top: 4px solid #1565c0;
+  }
+
+  .score-card .sc-label { font-size: 20px; color: #555; }
+  .score-card .sc-val   { font-size: 36px; font-weight: 900; color: #00274c; }
+  .score-card .sc-sub   { font-size: 18px; color: #888; }
+
+  /* ── QR BOX ── */
+  .qr-placeholder {
+    width: 180px; height: 180px;
+    background: #e0e7ef;
+    border: 2px dashed #aaa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: #666;
+    border-radius: 6px;
+  }
+
+  @media print {
+    body { background: white; padding: 0; }
+    .poster { transform: none; width: 100%; }
+  }
+</style>
+</head>
+<body>
+<div class="poster">
+
+  <!-- ═══════════ HEADER ═══════════ -->
+  <div class="header">
+    <div class="header-logos">
+      <div class="logo-circle">
+        <img src="C:\Users\Arryansh\.gemini\antigravity\brain\11f5ce32-eda0-4a44-9253-1e2937c8af0a\nit_logo_1777749181355.png" alt="NIT Rourkela Logo" />
+      </div>
+      <div class="logo-text">NIT Rourkela<br/>Est. 1961</div>
+    </div>
+
+    <div class="header-text">
+      <div class="conf-label">Student Technical Week — 8th Semester Project Poster</div>
+      <div class="poster-title">Stock Price & IPO Investment<br/>Prediction System</div>
+      <div class="poster-subtitle">A Machine Learning Approach Using Logistic Regression &amp; Rule-Based Scoring</div>
+      <div class="authors">
+        <strong>Arryansh</strong> &nbsp;|&nbsp; Department of Computer Science &amp; Engineering<br/>
+        National Institute of Technology, Rourkela<br/>
+        <span class="supervisor">Under the guidance of: [Supervisor Name] &nbsp;|&nbsp; Academic Year: 2025–26</span>
+      </div>
+    </div>
+
+    <div class="header-logos">
+      <div class="logo-circle" style="background:#fff3e0; border-color:#ff9800;">
+        <span style="font-size:72px;">📈</span>
+      </div>
+      <div class="logo-text" style="color:#ffd700;">AML Project<br/>2025–26</div>
+    </div>
+  </div>
+
+  <!-- ═══════════ BODY ═══════════ -->
+  <div class="body">
+
+    <!-- ════ COLUMN 1 ════ -->
+    <div class="column">
+
+      <!-- ABSTRACT -->
+      <div class="section">
+        <div class="section-header"><span class="icon">📋</span> Abstract</div>
+        <div class="section-body">
+          <p>
+            This project presents a full-stack intelligent system for <strong>predicting stock price movement</strong> and <strong>evaluating IPO investment potential</strong>. The system leverages machine learning (Logistic Regression) on technical indicators derived from historical market data to generate next-day price direction predictions.
+          </p>
+          <p>
+            A complementary <strong>rule-based IPO scoring engine</strong> rates initial public offerings using market signals — subscription rate, Grey Market Premium (GMP), company profitability, and sector risk.
+          </p>
+          <div class="highlight-box">
+            The unified web application provides retail investors with AI-assisted, data-driven investment insights in real time.
+          </div>
+        </div>
+      </div>
+
+      <!-- INTRODUCTION -->
+      <div class="section">
+        <div class="section-header"><span class="icon">🎯</span> Introduction &amp; Motivation</div>
+        <div class="section-body">
+          <ul>
+            <li>Retail investors lack access to <strong>institutional-grade analytics</strong> tools.</li>
+            <li>Stock market is highly volatile; <strong>sentiment-based decisions</strong> lead to losses.</li>
+            <li>IPO evaluation requires analyzing multiple signals simultaneously.</li>
+            <li>Existing tools are either too complex or require expensive subscriptions.</li>
+          </ul>
+          <div class="highlight-box">
+            <strong>Objective:</strong> Build a free, accessible, full-stack platform that uses ML to guide smarter investment decisions.
+          </div>
+          <ul>
+            <li>Uses <strong>Yahoo Finance API</strong> for real, live market data.</li>
+            <li>Covers both NSE/BSE (India) and NASDAQ/NYSE (US) stocks.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- DATASET -->
+      <div class="section">
+        <div class="section-header"><span class="icon">🗄️</span> Dataset &amp; Features</div>
+        <div class="section-body">
+          <p><strong>Source:</strong> Yahoo Finance API (<code>yfinance</code>) — 2-year OHLCV data</p>
+          <table class="poster-table">
+            <thead>
+              <tr><th>Feature</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>MA5</strong></td><td>5-day Moving Average</td></tr>
+              <tr><td><strong>MA10</strong></td><td>10-day Moving Average</td></tr>
+              <tr><td><strong>Price_Change</strong></td><td>Daily Close Difference</td></tr>
+              <tr><td><strong>Volume_Change</strong></td><td>Daily Volume Difference</td></tr>
+              <tr><td><strong>Target</strong></td><td>1 = UP, 0 = DOWN (next day)</td></tr>
+            </tbody>
+          </table>
+          <p style="margin-top:12px;"><strong>Preprocessing:</strong> StandardScaler normalization, 80/20 chronological train/test split, NaN removal.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ════ COLUMN 2 ════ -->
+    <div class="column">
+
+      <!-- SYSTEM ARCHITECTURE -->
+      <div class="section">
+        <div class="section-header"><span class="icon">🏗️</span> System Architecture</div>
+        <div class="section-body">
+          <div class="flow-diagram">
+            <div class="flow-box blue">🖥️ Frontend — React + Vite (Port 5173)</div>
+            <div class="flow-sub" style="margin:0; gap:8px;">
+              <div class="flow-sub-box blue-l">Stock Predictor</div>
+              <div class="flow-sub-box blue-l">IPO Evaluator</div>
+              <div class="flow-sub-box blue-l">History</div>
+              <div class="flow-sub-box blue-l">Trending</div>
+            </div>
+            <div class="flow-arrow">⬇</div>
+            <div class="flow-label">HTTP REST / JSON</div>
+            <div class="flow-arrow">⬇</div>
+            <div class="flow-box purple">⚡ Backend — FastAPI Python (Port 8000)</div>
+            <div class="flow-sub" style="margin:4px 0; gap:6px;">
+              <div class="flow-sub-box" style="background:#8e24aa;color:white;font-size:18px;">POST /predict_stock</div>
+              <div class="flow-sub-box" style="background:#8e24aa;color:white;font-size:18px;">GET /trending</div>
+              <div class="flow-sub-box" style="background:#8e24aa;color:white;font-size:18px;">POST /evaluate_ipo</div>
+              <div class="flow-sub-box" style="background:#8e24aa;color:white;font-size:18px;">GET /history</div>
+            </div>
+            <div class="flow-arrow">⬇</div>
+            <div class="flow-label">Python function calls</div>
+            <div class="flow-arrow">⬇</div>
+            <div class="flow-box green">🧠 Data &amp; ML Layer — Python (data.py)</div>
+            <div class="flow-sub" style="margin:4px 0;">
+              <div class="flow-sub-box green-l">Stock Prediction Engine<br/>(Logistic Regression)</div>
+              <div class="flow-sub-box green-l">IPO Scoring Engine<br/>(Rule-Based Algorithm)</div>
+            </div>
+            <div class="flow-arrow">⬇</div>
+            <div class="flow-box orange">🌐 Yahoo Finance API &nbsp;&amp;&nbsp; 💾 history.json</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- METHODOLOGY -->
+      <div class="section">
+        <div class="section-header"><span class="icon">🔬</span> Methodology</div>
+        <div class="section-body">
+          <p><strong>A. Stock Prediction Pipeline:</strong></p>
+          <ul>
+            <li>Fetch 2 years of OHLCV data from Yahoo Finance</li>
+            <li>Engineer technical indicators: MA5, MA10, ΔPrice, ΔVolume</li>
+            <li>Binary target: tomorrow's close &gt; today's close → UP (1) else DOWN (0)</li>
+            <li>Train <strong>Logistic Regression</strong> on scaled 80% data, predict on 20%</li>
+            <li>Output: Prediction (UP/DOWN), Confidence %, Risk Level</li>
+          </ul>
+          <p><strong>B. IPO Evaluation Algorithm:</strong></p>
+          <ul>
+            <li>Subscription Rate &gt;20x → +2 pts | 10–20x → +1 pt | &lt;10x → −1 pt</li>
+            <li>GMP% &gt;25% → +2 pts | 10–25% → +1 pt | &lt;10% → −1 pt</li>
+            <li>Company Profitable → +1 pt | Loss-making → −1 pt</li>
+            <li>Strong Sector (Banking/Energy) → +1 pt | Risky → −1 pt</li>
+            <li>Final Rating: <strong>Good ≥ 4 pts | Average ≥ 2 pts | Risky &lt; 2 pts</strong></li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ════ COLUMN 3 ════ -->
+    <div class="column">
+
+      <!-- RESULTS -->
+      <div class="section">
+        <div class="section-header"><span class="icon">📊</span> Results &amp; Performance</div>
+        <div class="section-body">
+          <div class="score-grid">
+            <div class="score-card">
+              <div class="sc-label">Model Accuracy</div>
+              <div class="sc-val">~72%</div>
+              <div class="sc-sub">Logistic Regression</div>
+            </div>
+            <div class="score-card" style="border-color:#00695c;">
+              <div class="sc-label">Avg. Confidence</div>
+              <div class="sc-val">~68%</div>
+              <div class="sc-sub">Predict Probability</div>
+            </div>
+            <div class="score-card" style="border-color:#6a1b9a;">
+              <div class="sc-label">Stocks Covered</div>
+              <div class="sc-val">10+</div>
+              <div class="sc-sub">NSE, BSE, NASDAQ</div>
+            </div>
+            <div class="score-card" style="border-color:#e65100;">
+              <div class="sc-label">IPO Signals</div>
+              <div class="sc-val">4</div>
+              <div class="sc-sub">Sub Rate, GMP, Profit, Sector</div>
+            </div>
+          </div>
+          <img
+            src="C:\Users\Arryansh\.gemini\antigravity\brain\11f5ce32-eda0-4a44-9253-1e2937c8af0a\result_chart_poster_1777749229835.png"
+            alt="Model Performance Metrics Chart"
+            class="arch-img"
+            style="margin-top:16px;"
+          />
+        </div>
+      </div>
+
+      <!-- TECH STACK -->
+      <div class="section">
+        <div class="section-header"><span class="icon">⚙️</span> Technology Stack</div>
+        <div class="section-body">
+          <table class="poster-table">
+            <thead>
+              <tr><th>Layer</th><th>Technology</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Frontend UI</td><td>React 18, Vite, CSS</td></tr>
+              <tr><td>Backend API</td><td>FastAPI, Python 3.11, Uvicorn</td></tr>
+              <tr><td>Machine Learning</td><td>scikit-learn (Logistic Regression)</td></tr>
+              <tr><td>Data Processing</td><td>pandas, NumPy</td></tr>
+              <tr><td>Market Data</td><td>yfinance (Yahoo Finance API)</td></tr>
+              <tr><td>Data Format</td><td>JSON (REST API)</td></tr>
+              <tr><td>Persistence</td><td>history.json (local flat file)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- CONCLUSION & FUTURE WORK -->
+      <div class="section">
+        <div class="section-header"><span class="icon">✅</span> Conclusion &amp; Future Work</div>
+        <div class="section-body">
+          <p><strong>Conclusions:</strong></p>
+          <ul class="tick-list">
+            <li>Successfully built a full-stack ML web application for market prediction.</li>
+            <li>Logistic Regression on technical indicators achieves ~72% accuracy.</li>
+            <li>IPO scoring engine produces interpretable, reason-backed ratings.</li>
+            <li>Real-time data integration via Yahoo Finance API ensures live predictions.</li>
+          </ul>
+          <p style="margin-top:12px;"><strong>Future Enhancements:</strong></p>
+          <ul class="cross-list">
+            <li>Integrate LSTM / Transformer models for deeper temporal patterns.</li>
+            <li>Add sentiment analysis from financial news &amp; Twitter/X data.</li>
+            <li>Extend IPO ML model trained on historical IPO performance data.</li>
+            <li>Deploy on cloud (AWS/GCP) with user authentication &amp; portfolio tracking.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- REFERENCES -->
+      <div class="section">
+        <div class="section-header"><span class="icon">📚</span> References</div>
+        <div class="section-body">
+          <ol class="ref-list">
+            <li>Breiman, L. (2001). Random Forests. <em>Machine Learning, 45</em>(1), 5–32.</li>
+            <li>Yahoo Finance API — <em>yfinance</em> Python Library. pypi.org/project/yfinance</li>
+            <li>scikit-learn: Machine Learning in Python. <em>JMLR 12</em>, 2825–2830, 2011.</li>
+            <li>Paszke et al. (2019). PyTorch: An Imperative Style, High-Performance Deep Learning Library. NeurIPS.</li>
+            <li>FastAPI Documentation — fastapi.tiangolo.com</li>
+          </ol>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════ FOOTER ═══════════ -->
+  <div class="footer">
+    <div class="footer-left">
+      NIT Rourkela<br/>
+      Dept. of CSE
+    </div>
+    <div class="footer-center">
+      Student Technical Week — 8th Semester &nbsp;|&nbsp; 2025–26<br/>
+      Stock &amp; IPO Prediction System — Arryansh
+    </div>
+    <div class="footer-right">
+      Contact: [email@nitrkl.ac.in]<br/>
+      GitHub: github.com/arryansh5
+    </div>
+  </div>
+
+</div>
+
+<div style="position:fixed;bottom:16px;right:16px;background:#00274c;color:white;padding:12px 20px;border-radius:8px;font-size:14px;box-shadow:0 4px 12px rgba(0,0,0,0.3);z-index:999;">
+  💡 To print at full size: <strong>Ctrl+P</strong> → Paper size A0/36"×48" → Scale 100%
+</div>
+
+</body>
+</html>

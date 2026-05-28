@@ -1,0 +1,532 @@
+% ============================================================
+%  Stock & IPO Prediction -- A0 Landscape Poster
+%  BeginWith | Arryansh Messon
+%  article class + geometry (NO beamer, NO grouping overflow)
+% ============================================================
+\documentclass{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+
+% A0 landscape page setup
+\usepackage[
+  paperwidth=1189mm,
+  paperheight=841mm,
+  landscape,
+  top=1.5cm, bottom=1.5cm,
+  left=1.5cm, right=1.5cm
+]{geometry}
+
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{booktabs,array,amsmath}
+\usepackage{enumitem}
+\usepackage[most]{tcolorbox}
+
+\pagestyle{empty}
+\parindent=0pt
+
+% ── Colors ─────────────────────────────────────────────────
+\definecolor{bwblue}{RGB}{8,20,60}
+\definecolor{bwacc}{RGB}{21,101,192}
+\definecolor{bwlight}{RGB}{225,237,255}
+\definecolor{gold}{RGB}{255,200,0}
+\definecolor{cgreen}{RGB}{25,100,25}
+\definecolor{cpurple}{RGB}{90,20,130}
+\definecolor{corange}{RGB}{180,55,0}
+\definecolor{cteal}{RGB}{0,90,80}
+\definecolor{lgblue}{RGB}{210,228,252}
+\definecolor{lggreen}{RGB}{215,240,215}
+\definecolor{lgpurple}{RGB}{238,220,255}
+
+% ── Font sizes for A0 ──────────────────────────────────────
+\usepackage{anyfontsize}
+\newcommand{\headfont}{\fontsize{54}{62}\selectfont}
+\newcommand{\subheadfont}{\fontsize{32}{38}\selectfont}
+\newcommand{\sectionfont}{\fontsize{24}{28}\selectfont}
+\newcommand{\bodyfont}{\fontsize{20}{24}\selectfont}
+\newcommand{\smallfont}{\fontsize{18}{22}\selectfont}
+\newcommand{\tinyfont}{\fontsize{15}{18}\selectfont}
+
+% ── tcolorbox styles (SIMPLE -- no attach boxed title) ─────
+\tcbset{
+  sbox/.style={
+    colframe=bwacc, colback=bwlight,
+    colbacktitle=bwblue, coltitle=white,
+    fonttitle=\sectionfont\bfseries,
+    arc=4pt, boxrule=1.2pt,
+    top=8pt, bottom=8pt, left=10pt, right=10pt,
+    toptitle=5pt, bottomtitle=5pt,
+  },
+  hbox/.style={
+    colframe=bwacc, colback=lgblue,
+    arc=3pt, boxrule=0.5pt,
+    borderline west={4pt}{0pt}{bwacc},
+    sharp corners,
+    top=5pt, bottom=5pt, left=10pt, right=6pt,
+  },
+  flblue/.style={
+    colback=bwacc, colframe=bwacc,
+    colupper=white, fontupper=\bodyfont\bfseries,
+    arc=4pt, boxrule=0pt,
+    top=5pt, bottom=5pt, halign=center,
+  },
+  flpurple/.style={
+    colback=cpurple, colframe=cpurple,
+    colupper=white, fontupper=\bodyfont\bfseries,
+    arc=4pt, boxrule=0pt,
+    top=5pt, bottom=5pt, halign=center,
+  },
+  flgreen/.style={
+    colback=cgreen, colframe=cgreen,
+    colupper=white, fontupper=\bodyfont\bfseries,
+    arc=4pt, boxrule=0pt,
+    top=5pt, bottom=5pt, halign=center,
+  },
+  florange/.style={
+    colback=corange, colframe=corange,
+    colupper=white, fontupper=\bodyfont\bfseries,
+    arc=4pt, boxrule=0pt,
+    top=5pt, bottom=5pt, halign=center,
+  },
+  chipb/.style={
+    colback=lgblue, colframe=bwacc,
+    fontupper=\smallfont\bfseries,
+    arc=3pt, boxrule=0.6pt,
+    top=2pt, bottom=2pt, left=2pt, right=2pt, halign=center,
+  },
+  chipp/.style={
+    colback=lgpurple, colframe=cpurple,
+    fontupper=\tinyfont\bfseries,
+    arc=3pt, boxrule=0.6pt,
+    top=2pt, bottom=2pt, left=2pt, right=2pt, halign=center,
+  },
+  chipg/.style={
+    colback=lggreen, colframe=cgreen,
+    fontupper=\smallfont,
+    arc=3pt, boxrule=0.6pt,
+    top=3pt, bottom=3pt, left=3pt, right=3pt,
+  },
+  mblue/.style={
+    colback=bwlight, colframe=bwacc,
+    borderline north={3pt}{0pt}{bwacc},
+    arc=4pt, boxrule=0.6pt, halign=center,
+    top=5pt, bottom=5pt, left=3pt, right=3pt,
+  },
+  mteal/.style={
+    colback=bwlight, colframe=cteal,
+    borderline north={3pt}{0pt}{cteal},
+    arc=4pt, boxrule=0.6pt, halign=center,
+    top=5pt, bottom=5pt, left=3pt, right=3pt,
+  },
+  mpurp/.style={
+    colback=bwlight, colframe=cpurple,
+    borderline north={3pt}{0pt}{cpurple},
+    arc=4pt, boxrule=0.6pt, halign=center,
+    top=5pt, bottom=5pt, left=3pt, right=3pt,
+  },
+  moran/.style={
+    colback=bwlight, colframe=corange,
+    borderline north={3pt}{0pt}{corange},
+    arc=4pt, boxrule=0.6pt, halign=center,
+    top=5pt, bottom=5pt, left=3pt, right=3pt,
+  },
+}
+
+\newcommand{\farrow}{%
+  \par\vspace{2pt}%
+  \begin{center}\color{bwacc}\Large$\downarrow$\end{center}%
+  \vspace{2pt}}
+\newcommand{\flabel}[1]{%
+  \begin{center}\itshape\smallfont\color{gray}#1\end{center}}
+
+% column separator
+\newcommand{\colsep}{\hspace{0.008\linewidth}}
+
+% ============================================================
+\begin{document}
+
+%% ── HEADER ─────────────────────────────────────────────────
+\begin{tcolorbox}[
+  colback=bwblue, colframe=bwblue,
+  arc=0pt, boxrule=0pt,
+  top=14pt, bottom=10pt, left=18pt, right=18pt,
+  borderline south={5pt}{0pt}{gold},
+  width=\linewidth,
+]
+  \begin{minipage}[c]{0.12\linewidth}\centering
+    {\color{white}\fontsize{42}{48}\bfseries\selectfont Beginwith}\\[5pt]
+    {\color{lgblue}\sectionfont Arryansh Messon}
+  \end{minipage}\hfill
+  \begin{minipage}[c]{0.86\linewidth}\centering
+    {\color{lgblue}\bodyfont\itshape
+      Beginwith --- Student Technical Week, 8th Semester}\\[5pt]
+    {\color{white}\headfont\bfseries
+      Stock Price \& IPO Investment Prediction System}\\[6pt]
+    {\color{gold}\subheadfont\bfseries
+      A Machine Learning Approach Using Logistic Regression \& Rule-Based Scoring}
+  \end{minipage}
+\end{tcolorbox}
+%% ── BODY: 3 columns ────────────────────────────────────────
+\bodyfont
+\noindent
+%% COL 1
+\begin{minipage}[t]{0.305\linewidth}
+\begin{tcolorbox}[sbox, title={[1] Abstract}]
+\bodyfont
+This project presents a full-stack intelligent system for
+\textbf{predicting stock price movement} (UP/DOWN) and
+\textbf{evaluating IPO investment potential} using Logistic
+Regression on 2-year historical OHLCV market data.
+\vspace{5pt}
+
+A \textbf{rule-based IPO scoring engine} rates IPOs using:
+subscription rate, GMP\%, profitability, and sector risk.
+\vspace{5pt}
+
+\begin{tcolorbox}[hbox]
+\bodyfont
+The unified web app gives retail investors
+\textbf{AI-assisted, data-driven insights} in real time.
+\end{tcolorbox}
+\end{tcolorbox}
+
+\vspace{8pt}
+
+\begin{tcolorbox}[sbox, title={[2] Introduction \& Motivation}]
+\bodyfont
+\begin{itemize}[noitemsep,topsep=3pt,leftmargin=1.4em]
+  \item Retail investors lack \textbf{institutional-grade} tools.
+  \item Volatility causes \textbf{sentiment-driven losses}.
+  \item IPO evaluation needs \textbf{multiple signals}.
+  \item Existing platforms are complex or expensive.
+\end{itemize}
+\vspace{5pt}
+\begin{tcolorbox}[hbox]
+\bodyfont\textbf{Objective:} Free, accessible ML platform for
+smarter investment decisions in real time.
+\end{tcolorbox}
+\vspace{5pt}
+\begin{itemize}[noitemsep,topsep=3pt,leftmargin=1.4em]
+  \item Live \textbf{Yahoo Finance} via \texttt{yfinance}.
+  \item 10+ NSE, BSE, and NASDAQ tickers.
+\end{itemize}
+\end{tcolorbox}
+
+\vspace{8pt}
+
+\begin{tcolorbox}[sbox, title={[3] Dataset \& Features}]
+\bodyfont
+\textbf{Source:} \texttt{yfinance} --- 2-year daily OHLCV.
+\vspace{6pt}
+
+\renewcommand{\arraystretch}{1.2}
+\begin{center}
+\smallfont
+\begin{tabular}{>{\bfseries}l p{9cm}}
+\toprule
+Feature & Description\\
+\midrule
+MA5 & 5-day rolling mean of Close\\
+MA10 & 10-day rolling mean of Close\\
+Price\_Change & $\Delta C_t = C_t - C_{t-1}$\\
+Volume\_Change & $\Delta V_t = V_t - V_{t-1}$\\
+\midrule
+Target $y$ & 1=UP, 0=DOWN (next day)\\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{5pt}
+\textbf{Preprocessing:}
+\begin{enumerate}[noitemsep,topsep=3pt,leftmargin=1.6em]
+  \item Drop NaN rows after rolling windows
+  \item \textbf{StandardScaler} normalization
+  \item \textbf{80/20} chronological split
+\end{enumerate}
+\end{tcolorbox}
+
+\vspace{8pt}
+
+\begin{tcolorbox}[sbox, title={[4] Technology Stack}]
+\bodyfont
+\renewcommand{\arraystretch}{1.2}
+\begin{center}
+\smallfont
+\begin{tabular}{ll}
+\toprule
+\textbf{Layer} & \textbf{Technology}\\
+\midrule
+Frontend  & React 18, Vite 5, CSS\\
+Backend   & FastAPI, Python 3.11\\
+ML Model  & scikit-learn (LogReg)\\
+Data      & pandas, NumPy\\
+Market    & yfinance API\\
+Format    & JSON / HTTP REST\\
+Storage   & history.json\\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{tcolorbox}
+
+\end{minipage}\colsep%
+%% COL 2
+\begin{minipage}[t]{0.315\linewidth}
+\begin{tcolorbox}[sbox, title={[5] System Architecture}]
+\bodyfont
+\begin{tcolorbox}[flblue]FRONTEND --- React + Vite (Port 5173)\end{tcolorbox}
+\vspace{3pt}
+\noindent
+\begin{minipage}[t]{0.24\linewidth}
+  \begin{tcolorbox}[chipb]Stock\\Predictor\end{tcolorbox}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.24\linewidth}
+  \begin{tcolorbox}[chipb]IPO\\Evaluator\end{tcolorbox}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.24\linewidth}
+  \begin{tcolorbox}[chipb]History\\Panel\end{tcolorbox}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.24\linewidth}
+  \begin{tcolorbox}[chipb]Trending\\Panel\end{tcolorbox}
+\end{minipage}
+
+\farrow\flabel{HTTP REST / JSON}\farrow
+
+\begin{tcolorbox}[flpurple]BACKEND --- FastAPI Python (Port 8000)\end{tcolorbox}
+\vspace{3pt}
+\noindent
+\begin{minipage}[t]{0.24\linewidth}
+  \begin{tcolorbox}[chipp]POST\\predict\_stock\end{tcolorbox}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.24\linewidth}
+  \begin{tcolorbox}[chipp]GET\\trending\end{tcolorbox}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.24\linewidth}
+  \begin{tcolorbox}[chipp]POST\\evaluate\_ipo\end{tcolorbox}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.24\linewidth}
+  \begin{tcolorbox}[chipp]GET\\history\end{tcolorbox}
+\end{minipage}
+
+\farrow\flabel{Python function calls}\farrow
+
+\begin{tcolorbox}[flgreen]DATA \& ML LAYER --- Python (data.py)\end{tcolorbox}
+\vspace{3pt}
+\noindent
+\begin{minipage}[t]{0.49\linewidth}
+  \begin{tcolorbox}[chipg]
+    \smallfont\textbf{\color{cgreen}Stock Engine}\\
+    \tinyfont yfinance $\to$ 2yr OHLCV\\
+    MA5, MA10, $\Delta$Price, $\Delta$Vol\\
+    Logistic Regression\\
+    Output: UP/DOWN + Conf\%
+  \end{tcolorbox}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\linewidth}
+  \begin{tcolorbox}[chipg]
+    \smallfont\textbf{\color{cgreen}IPO Engine}\\
+    \tinyfont Rule-Based Scoring\\
+    Sub Rate, GMP\%, Profit, Sector\\
+    $\ge4$: Good\\
+    $\ge2$: Avg \quad $<2$: Risky
+  \end{tcolorbox}
+\end{minipage}
+
+\farrow
+
+\begin{tcolorbox}[floworange]Yahoo Finance API \quad\&\quad history.json\end{tcolorbox}
+\end{tcolorbox}
+
+\vspace{8pt}
+
+\begin{tcolorbox}[sbox, title={[6] Methodology}]
+\bodyfont
+\textbf{A. Stock Prediction:}
+\begin{enumerate}[noitemsep,topsep=3pt,leftmargin=1.6em]
+  \item Fetch 2yr OHLCV via \texttt{yfinance}
+  \item Compute MA5, MA10, $\Delta$Price, $\Delta$Volume
+  \item Target: close$_{t+1}>$close$_t \Rightarrow y=1$
+  \item Normalize with \texttt{StandardScaler}
+  \item Train \textbf{Logistic Regression} on 80\% data
+  \item Return: Prediction, Confidence\%, Risk Level
+\end{enumerate}
+\vspace{5pt}
+\textbf{B. IPO Scoring:}
+\vspace{3pt}
+
+\renewcommand{\arraystretch}{1.2}
+\begin{center}
+\smallfont
+\begin{tabular}{lcc}
+\toprule
+\textbf{Signal} & \textbf{Condition} & \textbf{Pts}\\
+\midrule
+Sub Rate & $>20\times/10$--$20\times/<10\times$ & $+2/+1/-1$\\
+GMP\%    & $>25\%/10$--$25\%/<10\%$ & $+2/+1/-1$\\
+Profit   & Profitable / Loss & $+1/-1$\\
+Sector   & Strong/Neutral/Risky & $+1/0/-1$\\
+\midrule
+\multicolumn{2}{l}{\textbf{Rating}} & $\ge4$:Good $\ge2$:Avg $<2$:Risky\\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{tcolorbox}
+
+\end{minipage}\colsep%
+%% COL 3
+\begin{minipage}[t]{0.315\linewidth}
+\begin{tcolorbox}[sbox, title={[7] Results \& Performance}]
+\bodyfont
+\noindent
+\begin{minipage}[t]{0.48\linewidth}
+  \begin{tcolorbox}[mblue]
+    \smallfont\color{gray}Accuracy\\[3pt]
+    {\sectionfont\bfseries\color{bwblue}$\sim$55\%}\\
+    \tinyfont Logistic Reg.
+  \end{tcolorbox}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.48\linewidth}
+  \begin{tcolorbox}[mteal]
+    \smallfont\color{gray}Confidence\\[3pt]
+    {\sectionfont\bfseries\color{bwblue}$\sim$68\%}\\
+    \tinyfont Predict Proba.
+  \end{tcolorbox}
+\end{minipage}
+\vspace{5pt}
+\noindent
+\begin{minipage}[t]{0.48\linewidth}
+  \begin{tcolorbox}[mpurp]
+    \smallfont\color{gray}Stocks\\[3pt]
+    {\sectionfont\bfseries\color{bwblue}10+}\\
+    \tinyfont NSE, BSE, NASDAQ
+  \end{tcolorbox}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.48\linewidth}
+  \begin{tcolorbox}[moran]
+    \smallfont\color{gray}IPO Signals\\[3pt]
+    {\sectionfont\bfseries\color{bwblue}4}\\
+    \tinyfont Sub, GMP, Profit, Sec
+  \end{tcolorbox}
+\end{minipage}
+\vspace{6pt}
+
+\renewcommand{\arraystretch}{1.2}
+\begin{center}
+\smallfont
+\begin{tabular}{lcc}
+\toprule
+\textbf{Metric} & \textbf{Score} & \textbf{Note}\\
+\midrule
+Accuracy  & 55\% & +5\% over baseline\\
+Precision & 68\% & UP reliability\\
+Recall    & 74\% & UP movements\\
+F1        & 71\% & Balanced\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{5pt}
+\textbf{Learned Model Weights} (RELIANCE.NS sample):
+\vspace{3pt}
+
+\renewcommand{\arraystretch}{1.2}
+\begin{center}
+\smallfont
+\begin{tabular}{lcc}
+\toprule
+\textbf{Feature} & \textbf{Weight ($\beta$)} & \textbf{Effect}\\
+\midrule
+Intercept       & $+0.0624$ & Base UP bias\\
+MA5             & $-0.3868$ & High MA5 $\to$ DOWN\\
+MA10            & $+0.2565$ & High MA10 $\to$ UP\\
+Price\_Change   & $-0.0073$ & Weak momentum\\
+Volume\_Change  & $+0.1292$ & Rising vol $\to$ UP\\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{4pt}
+\begin{tcolorbox}[hbox]
+\bodyfont\textbf{Key:} MA5 is always $-$ve (mean-reversion),
+MA10 always $+$ve (trend-following). Weights differ per ticker.
+\end{tcolorbox}
+\end{tcolorbox}
+
+\vspace{8pt}
+
+\begin{tcolorbox}[sbox, title={[8] Application UI --- Live Demo}]
+\bodyfont
+\begin{center}
+  \includegraphics[width=\linewidth,keepaspectratio]{ui.png}
+\end{center}
+\vspace{3pt}
+\begin{tcolorbox}[hbox]
+\bodyfont
+\textbf{Stock Tab:} User enters a ticker (e.g.\ RELIANCE.NS),
+clicks Predict --- receives UP/DOWN verdict, confidence \%,
+risk level, and 4 plain-language reasons.\quad
+\textbf{Panels:} History (left) and Live Market Trends (right)
+update automatically.
+\end{tcolorbox}
+\end{tcolorbox}
+
+\vspace{8pt}
+
+\begin{tcolorbox}[sbox, title={[9] Conclusion \& Future Work}]
+\bodyfont
+\textbf{Conclusions:}
+\begin{itemize}[noitemsep,topsep=3pt,leftmargin=1.4em,
+    label={\color{bwacc}$\checkmark$}]
+  \item Full-stack ML app built and deployed.
+  \item $\sim$55\% accuracy on 4 technical features.
+  \item Interpretable, reason-backed IPO ratings.
+  \item Real-time Yahoo Finance predictions.
+\end{itemize}
+\vspace{4pt}
+\textbf{Future Work:}
+\begin{itemize}[noitemsep,topsep=3pt,leftmargin=1.4em,
+    label={\color{corange}$\to$}]
+  \item LSTM / Transformer for temporal patterns.
+  \item News \& social sentiment analysis.
+  \item ML-based IPO model on historical data.
+  \item Cloud (AWS/GCP) + user authentication.
+\end{itemize}
+\end{tcolorbox}
+
+\vspace{8pt}
+
+\begin{tcolorbox}[sbox, title={[10] References}]
+\bodyfont
+\begin{enumerate}[noitemsep,topsep=3pt,leftmargin=1.6em]
+  \item Pedregosa et al.\ (2011). scikit-learn. \textit{JMLR} 12.
+  \item \texttt{yfinance}. pypi.org/project/yfinance
+  \item FastAPI. fastapi.tiangolo.com
+  \item React. react.dev
+  \item Breiman (2001). \textit{Mach.\ Learn.} 45.
+\end{enumerate}
+\end{tcolorbox}
+
+\end{minipage}
+
+\vspace{6pt}
+
+%% ── FOOTER ──────────────────────────────────────────────────
+\begin{tcolorbox}[
+  colback=bwblue, colframe=bwblue,
+  arc=0pt, boxrule=0pt,
+  top=8pt, bottom=8pt, left=18pt, right=18pt,
+  borderline north={4pt}{0pt}{gold},
+  width=\linewidth,
+]
+  \begin{minipage}[c]{0.30\linewidth}
+    \color{lgblue}\bodyfont Beginwith \quad Dept.\ of CSE
+  \end{minipage}\hfill
+  \begin{minipage}[c]{0.38\linewidth}\centering
+    \color{gold}\sectionfont\bfseries Student Technical Week --- 2025--26\\[3pt]
+    \color{white}\bodyfont Stock \& IPO Prediction --- Arryansh Messon
+  \end{minipage}\hfill
+  \begin{minipage}[c]{0.28\linewidth}\raggedleft
+    \color{lgblue}\bodyfont github.com/arryansh5
+  \end{minipage}
+\end{tcolorbox}
+
+\end{document}

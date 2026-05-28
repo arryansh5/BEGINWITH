@@ -177,6 +177,70 @@ function App() {
                       <div key={i} className="reason-item">{r}</div>
                     ))}
                   </div>
+
+                  {stockResult.Metrics && (
+                    <div className="metrics-section">
+                      <h3 className="metrics-title">Model Performance & Analytics</h3>
+                      <p className="metrics-subtitle">
+                        Logistic Regression model trained on <strong>{stockResult.Metrics.train_size}</strong> trading days, 
+                        validated on <strong>{stockResult.Metrics.test_size}</strong> days.
+                      </p>
+                      
+                      <div className="metrics-grid">
+                        <div className="metric-pill-card">
+                          <span className="metric-val">{stockResult.Metrics.accuracy}%</span>
+                          <span className="metric-name">Accuracy</span>
+                        </div>
+                        <div className="metric-pill-card">
+                          <span className="metric-val">{stockResult.Metrics.precision}%</span>
+                          <span className="metric-name">Precision</span>
+                        </div>
+                        <div className="metric-pill-card">
+                          <span className="metric-val">{stockResult.Metrics.recall}%</span>
+                          <span className="metric-name">Recall</span>
+                        </div>
+                        <div className="metric-pill-card">
+                          <span className="metric-val">{stockResult.Metrics.f1_score}%</span>
+                          <span className="metric-name">F1 Score</span>
+                        </div>
+                      </div>
+
+                      <h4 className="weights-title">Logistic Regression Coefficients (Feature Impact)</h4>
+                      <p className="weights-subtitle-info">
+                        Positive coefficients support an <strong>UP</strong> prediction, while negative coefficients lean towards <strong>DOWN</strong>.
+                      </p>
+                      
+                      <div className="weights-list">
+                        {Object.entries(stockResult.Metrics.coefficients).map(([feat, val]) => {
+                          const featureNames = {
+                            'MA5': '5-Day Moving Average (MA5)',
+                            'MA10': '10-Day Moving Average (MA10)',
+                            'Price_Change': 'Price Momentum (Change)',
+                            'Volume_Change': 'Volume Momentum (Change)'
+                          };
+                          const maxVal = Math.max(...Object.values(stockResult.Metrics.coefficients).map(Math.abs)) || 1;
+                          const percentage = Math.min(100, Math.round((Math.abs(val) / maxVal) * 100));
+                          const isPositive = val >= 0;
+                          return (
+                            <div key={feat} className="weight-row" title={`Coefficient weight: ${val.toFixed(6)}`}>
+                              <span className="weight-feat-name">{featureNames[feat] || feat}</span>
+                              <div className="weight-bar-container">
+                                <div className="weight-bar-bg">
+                                  <div 
+                                    className={`weight-bar-fill ${isPositive ? 'bg-green' : 'bg-red'}`} 
+                                    style={{ width: `${percentage}%` }}
+                                  ></div>
+                                </div>
+                              </div>
+                              <span className={`weight-val ${isPositive ? 'green' : 'red'}`}>
+                                {isPositive ? '+' : ''}{val.toFixed(4)}
+                              </span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
 

@@ -42,8 +42,8 @@ def save_to_history(entry):
 @app.post("/api/predict_stock")
 def predict_stock(req: StockRequest):
     try:
-        model, scaler, latest_day, features = get_stock_data_and_model(req.ticker)
-        result = get_stock_prediction(model, scaler, latest_day, features)
+        model, scaler, latest_day, features, metrics = get_stock_data_and_model(req.ticker)
+        result = get_stock_prediction(model, scaler, latest_day, features, metrics)
         save_to_history({"ticker": req.ticker, "Prediction": result["Prediction"], "Confidence": result["Confidence"]})
         return {"success": True, "data": result}
     except Exception as e:
